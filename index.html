@@ -268,11 +268,18 @@ let isReadOnly=false;
 let saveTimeout=null;
 
 function todayStr(){return new Date().toISOString().slice(0,10);}
-function getDateForDay(dayName){
+function getMondayOfCurrentWeek(){
   const today=new Date();
   const todayIdx=today.getDay()===0?6:today.getDay()-1;
-  const diff=DAYS.indexOf(dayName)-todayIdx;
-  const d=new Date(today);d.setDate(d.getDate()+diff);
+  const monday=new Date(today);
+  monday.setDate(today.getDate()-todayIdx);
+  monday.setHours(0,0,0,0);
+  return monday;
+}
+function getDateForDay(dayName){
+  const monday=getMondayOfCurrentWeek();
+  const d=new Date(monday);
+  d.setDate(monday.getDate()+DAYS.indexOf(dayName));
   return d.toISOString().slice(0,10);
 }
 function getDayNameFromDate(dateStr){
