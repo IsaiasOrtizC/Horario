@@ -190,7 +190,7 @@ input[type="color"] { width:42px; height:42px; border:2.5px solid var(--border);
   <div id="tab-schedule" class="panel active">
     <p class="section-title">Categoría activa</p>
     <div class="legend-chips" id="legend-chips"></div>
-    <p class="section-title">Día de la semana</p>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px"><p class="section-title" style="margin:0">Día de la semana</p><span id="week-label" style="font-size:10px;font-weight:900;color:var(--neon4);text-transform:uppercase;letter-spacing:0.5px">Esta semana</span></div>
     <div class="day-nav" id="day-nav"></div>
     <div class="schedule-wrap" id="schedule-wrap"></div>
   </div>
@@ -263,6 +263,7 @@ const HOURS=[];for(let h=6;h<24;h++)HOURS.push(h);
 let categories=[],events={},permanents=[];
 let selectedCat=null;
 let currentDay=DAYS[new Date().getDay()===0?6:new Date().getDay()-1];
+let weekOffset=0;
 let calYear=new Date().getFullYear(),calMonth=new Date().getMonth();
 let myUserId=null;
 let isReadOnly=false;
@@ -279,7 +280,7 @@ function getMondayOfCurrentWeek(){
   const today=new Date();
   const todayIdx=today.getDay()===0?6:today.getDay()-1;
   const monday=new Date(today);
-  monday.setDate(today.getDate()-todayIdx);
+  monday.setDate(today.getDate()-todayIdx+(weekOffset*7));
   monday.setHours(12,0,0,0);
   return monday;
 }
@@ -584,6 +585,15 @@ function renderDayNav(){
   const wrap=document.getElementById('day-nav');if(!wrap)return;
   wrap.innerHTML='';
   const today=todayStr();
+  const monday=getMondayOfCurrentWeek();
+  const sunday=new Date(monday);sunday.setDate(monday.getDate()+6);
+
+  const prevBtn=document.createElement('button');
+  prevBtn.className='day-btn';prevBtn.style.padding='6px 10px';prevBtn.style.fontSize='18px';
+  prevBtn.textContent='‹';
+  prevBtn.onclick=()=>{weekOffset--;currentDay=DAYS[0];renderDayNav();renderSchedule();};
+  wrap.appendChild(prevBtn);
+
   DAYS.forEach(d=>{
     const date=getDateForDay(d);
     const isToday=date===today;
@@ -593,6 +603,20 @@ function renderDayNav(){
     btn.onclick=()=>{currentDay=d;renderDayNav();renderSchedule();};
     wrap.appendChild(btn);
   });
+
+  const nextBtn=document.createElement('button');
+  nextBtn.className='day-btn';nextBtn.style.padding='6px 10px';nextBtn.style.fontSize='18px';
+  nextBtn.textContent='›';
+  nextBtn.onclick=()=>{weekOffset++;currentDay=DAYS[0];renderDayNav();renderSchedule();};
+  wrap.appendChild(nextBtn);
+
+  const weekLabel=document.getElementById('week-label');
+  if(weekLabel){
+    if(weekOffset===0)weekLabel.textContent='Esta semana';
+    else if(weekOffset===1)weekLabel.textContent='Próxima semana';
+    else if(weekOffset===-1)weekLabel.textContent='Semana pasada';
+    else weekLabel.textContent=`${localDateStr(monday).slice(8,10)}/${String(monday.getMonth()+1).padStart(2,'0')} – ${localDateStr(sunday).slice(8,10)}/${String(sunday.getMonth()+1).padStart(2,'0')}`;
+  }
 }
 
 function getPermForCell(day,hour){
@@ -697,7 +721,20 @@ function renderCalendar(){
 
 function openDayFromCalendar(dateStr){
   const dayName=getDayNameFromDate(dateStr);
-  currentDay=dayName;switchTab('schedule');
+  // Calculate weekOffset for this date
+  const clickedDate=new Date(dateStr+'T12:00:00');
+  const todayDate=new Date();
+  const todayIdx=todayDate.getDay()===0?6:todayDate.getDay()-1;
+  const thisMonday=new Date(todayDate);
+  thisMonday.setDate(todayDate.getDate()-todayIdx);
+  thisMonday.setHours(12,0,0,0);
+  const clickedIdx=clickedDate.getDay()===0?6:clickedDate.getDay()-1;
+  const clickedMonday=new Date(clickedDate);
+  clickedMonday.setDate(clickedDate.getDate()-clickedIdx);
+  const diffMs=clickedMonday-thisMonday;
+  weekOffset=Math.round(diffMs/(7*24*60*60*1000));
+  currentDay=dayName;
+  switchTab('schedule');
   renderDayNav();renderSchedule();
   showStatus(`★ ${dayName} ${formatDateLabel(dateStr)}`);
 }
@@ -913,7 +950,7 @@ function closeModal(){document.getElementById('modal-overlay').classList.remove(
 function closeModalIfBg(e){if(e.target===document.getElementById('modal-overlay'))closeModal();}
 
 // Make functions global for onclick handlers
-window.switchTab=switchTab;window.addCategory=addCategory;window.selectCat=selectCat;
+window.switchTab=switchTab;window.addCategory=addCategory;window.selectCat=selectCat;window.changeWeek=(d)=>{weekOffset+=d;currentDay=DAYS[0];renderDayNav();renderSchedule();};
 window.changeMonth=changeMonth;window.addPermanent=addPermanent;window.deletePermanent=deletePermanent;
 window.deleteCategory=deleteCategory;window.confirmDeleteCat=confirmDeleteCat;
 window.openShareModal=openShareModal;window.copyShareLink=copyShareLink;window.openFriendLink=openFriendLink;
