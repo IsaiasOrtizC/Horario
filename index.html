@@ -90,13 +90,14 @@ input[type="color"] { width:42px; height:42px; border:2.5px solid var(--border);
 .month-arrow:active { transform:translate(2px,2px); box-shadow:none; }
 .cal-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:4px; }
 .cal-dow { font-size:9px; font-weight:900; color:var(--text3); text-align:center; text-transform:uppercase; letter-spacing:0.5px; padding:4px 0 6px; }
-.cal-day { min-height:50px; border-radius:var(--radius); border:2px solid var(--border); background:var(--surface); padding:5px 3px 4px; cursor:pointer; box-shadow:var(--shadow-sm); transition:transform 0.1s, box-shadow 0.1s; }
+.cal-day { min-height:54px; border-radius:var(--radius); border:2px solid var(--border); background:var(--surface); padding:5px 3px 4px; cursor:pointer; box-shadow:var(--shadow-sm); transition:transform 0.1s, box-shadow 0.1s; }
 .cal-day:active { transform:translate(2px,2px); box-shadow:none; }
 .cal-day.empty { border-color:transparent; background:transparent; box-shadow:none; cursor:default; }
 .cal-day.today { background:var(--neon3); }
-.cal-day-num { font-size:11px; font-weight:900; text-align:center; margin-bottom:4px; }
-.cal-dots { display:flex; flex-wrap:wrap; gap:2px; justify-content:center; }
-.cal-dot { width:6px; height:6px; border-radius:50%; flex-shrink:0; }
+.cal-day.has-activity { border-width:2.5px; }
+.cal-day-num { font-size:11px; font-weight:900; text-align:center; margin-bottom:5px; }
+.cal-dots { display:flex; flex-wrap:wrap; gap:3px; justify-content:center; padding:0 2px; }
+.cal-dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; border:1px solid rgba(0,0,0,0.15); }
 
 .perm-form { background:var(--surface); border-radius:var(--radius-lg); padding:16px; margin-bottom:16px; border:2.5px solid var(--border); box-shadow:var(--shadow); }
 .field { margin-bottom:12px; }
@@ -267,20 +268,26 @@ let myUserId=null;
 let isReadOnly=false;
 let saveTimeout=null;
 
-function todayStr(){return new Date().toISOString().slice(0,10);}
+function localDateStr(date){
+  const y=date.getFullYear();
+  const m=String(date.getMonth()+1).padStart(2,'0');
+  const d=String(date.getDate()).padStart(2,'0');
+  return`${y}-${m}-${d}`;
+}
+function todayStr(){return localDateStr(new Date());}
 function getMondayOfCurrentWeek(){
   const today=new Date();
   const todayIdx=today.getDay()===0?6:today.getDay()-1;
   const monday=new Date(today);
   monday.setDate(today.getDate()-todayIdx);
-  monday.setHours(0,0,0,0);
+  monday.setHours(12,0,0,0);
   return monday;
 }
 function getDateForDay(dayName){
   const monday=getMondayOfCurrentWeek();
   const d=new Date(monday);
   d.setDate(monday.getDate()+DAYS.indexOf(dayName));
-  return d.toISOString().slice(0,10);
+  return localDateStr(d);
 }
 function getDayNameFromDate(dateStr){
   const d=new Date(dateStr+'T12:00:00');
@@ -670,10 +677,20 @@ function renderCalendar(){
   for(let d=1;d<=daysInMonth;d++){
     const dateStr=`${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
     const isToday=dateStr===today;
-    const el=document.createElement('div');
-    el.className='cal-day'+(isToday?' today':'');
     const colors=hasActivityOnDate(dateStr);
-    el.innerHTML=`<div class="cal-day-num">${d}</div><div class="cal-dots">${colors.slice(0,5).map(c=>`<span class="cal-dot" style="background:${c}"></span>`).join('')}</div>`;
+    const hasAct=colors.length>0;
+    const el=document.createElement('div');
+    let cls='cal-day';
+    if(isToday)cls+=' today';
+    if(hasAct)cls+=' has-activity';
+    el.className=cls;
+    // If has activity and not today, tint background with first color
+    if(hasAct&&!isToday){
+      el.style.background=colors[0]+'18';
+      el.style.borderColor=colors[0]+'90';
+    }
+    const dotsHtml=colors.slice(0,6).map(c=>`<span class="cal-dot" style="background:${c}"></span>`).join('');
+    el.innerHTML=`<div class="cal-day-num">${d}</div><div class="cal-dots">${dotsHtml}</div>`;
     el.onclick=()=>openDayFromCalendar(dateStr);
     grid.appendChild(el);
   }
