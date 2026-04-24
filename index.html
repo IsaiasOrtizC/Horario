@@ -9,17 +9,10 @@
 <title>Mi Horario Semanal</title>
 <style>
 :root {
-  --bg: #fff9f0;
-  --surface: #ffffff;
-  --surface2: #fff3e0;
-  --border: #1a1a1a;
-  --text: #1a1a1a;
-  --text2: #555;
-  --text3: #999;
-  --shadow: 3px 3px 0 #1a1a1a;
-  --shadow-sm: 2px 2px 0 #1a1a1a;
-  --radius: 10px;
-  --radius-lg: 14px;
+  --bg: #fff9f0; --surface: #ffffff; --surface2: #fff3e0;
+  --border: #1a1a1a; --text: #1a1a1a; --text2: #555; --text3: #999;
+  --shadow: 3px 3px 0 #1a1a1a; --shadow-sm: 2px 2px 0 #1a1a1a;
+  --radius: 10px; --radius-lg: 14px;
   --font: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', system-ui, sans-serif;
   --neon1: #ff3cac; --neon2: #00d4b8; --neon3: #ffe600; --neon4: #7b2fff; --neon5: #ff6b2b; --neon6: #00cfff;
 }
@@ -36,9 +29,15 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); min-
 .deco-strip { height: 6px; background: repeating-linear-gradient(90deg,#ff3cac 0 20px,#ffe600 20px 40px,#00d4b8 40px 60px,#7b2fff 60px 80px,#ff6b2b 80px 100px,#00cfff 100px 120px); border-bottom: 2px solid var(--border); }
 
 header { padding: 14px 16px 10px; background: var(--neon3); border-bottom: 3px solid var(--border); position: sticky; top: 0; z-index: 20; }
-header h1 { font-size: 24px; font-weight: 900; letter-spacing: -0.5px; line-height: 1; }
-header h1 span { display:inline-block; background:var(--neon1); color:#fff; padding:1px 8px; border-radius:6px; border:2px solid var(--border); margin-left:4px; font-size:18px; }
+.header-inner { display: flex; align-items: center; justify-content: space-between; }
+header h1 { font-size: 22px; font-weight: 900; letter-spacing: -0.5px; line-height: 1; }
+header h1 span { display:inline-block; background:var(--neon1); color:#fff; padding:1px 8px; border-radius:6px; border:2px solid var(--border); margin-left:4px; font-size:17px; }
 .header-sub { font-size:10px; font-weight:700; color:var(--text2); margin-top:3px; letter-spacing:0.4px; text-transform:uppercase; }
+.share-btn { background: var(--text); color: var(--bg); border: 2.5px solid var(--border); border-radius: var(--radius); padding: 7px 12px; font-family: var(--font); font-size: 11px; font-weight: 900; cursor: pointer; box-shadow: var(--shadow-sm); text-transform: uppercase; letter-spacing: 0.4px; white-space: nowrap; transition: transform 0.1s, box-shadow 0.1s; flex-shrink: 0; }
+.share-btn:active { transform: translate(2px,2px); box-shadow: none; }
+
+/* READONLY BANNER */
+.readonly-banner { background: var(--neon4); color: #fff; padding: 10px 16px; border-bottom: 3px solid var(--border); font-size: 12px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.5px; text-align: center; }
 
 .tabs { display:flex; background:var(--surface); border-bottom:3px solid var(--border); position:sticky; top:63px; z-index:19; }
 .tab { flex:1; padding:10px 2px; font-size:10px; font-family:var(--font); font-weight:900; color:var(--text2); background:none; border:none; border-bottom:4px solid transparent; cursor:pointer; text-transform:uppercase; letter-spacing:0.3px; transition:all 0.15s; }
@@ -47,8 +46,7 @@ header h1 span { display:inline-block; background:var(--neon1); color:#fff; padd
 .tab:nth-child(3).active { border-bottom-color:var(--neon4); color:var(--neon4); background:#7b2fff0d; }
 .tab:nth-child(4).active { border-bottom-color:var(--neon2); color:var(--neon2); background:#00d4b80d; }
 
-.panel { display:none; padding:16px; }
-.panel.active { display:block; }
+.panel { display:none; padding:16px; } .panel.active { display:block; }
 .section-title { font-size:10px; font-weight:900; color:var(--text3); text-transform:uppercase; letter-spacing:1px; margin-bottom:10px; margin-top:18px; }
 .section-title:first-child { margin-top:0; }
 
@@ -80,13 +78,12 @@ input[type="color"] { width:42px; height:42px; border:2.5px solid var(--border);
 .schedule-row { display:flex; align-items:stretch; border-bottom:1px solid #e0e0d0; min-height:46px; }
 .schedule-row:last-child { border-bottom:none; }
 .schedule-row:nth-child(even) { background:var(--surface2); }
-.time-col { width:50px; flex-shrink:0; display:flex; align-items:center; justify-content:flex-end; padding:0 8px 0 0; font-size:10px; font-weight:900; color:var(--text3); border-right:2px solid #e0e0d0; text-transform:uppercase; letter-spacing:0.3px; }
+.time-col { width:50px; flex-shrink:0; display:flex; align-items:center; justify-content:flex-end; padding:0 8px 0 0; font-size:10px; font-weight:900; color:var(--text3); border-right:2px solid #e0e0d0; text-transform:uppercase; }
 .event-col { flex:1; padding:4px 6px; display:flex; align-items:center; cursor:pointer; min-height:46px; transition:background 0.1s; }
 .event-col:active { background:var(--surface2); }
 .event-block { width:100%; padding:7px 10px; border-radius:8px; border:2px solid var(--border); font-size:12px; font-weight:900; display:flex; align-items:center; justify-content:space-between; box-shadow:2px 2px 0 rgba(0,0,0,0.1); text-transform:uppercase; letter-spacing:0.3px; }
 .perm-dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; margin-left:6px; }
 
-/* CALENDAR */
 .month-nav { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
 .month-title { font-size:17px; font-weight:900; text-transform:uppercase; letter-spacing:0.5px; }
 .month-arrow { width:36px; height:36px; border-radius:50%; border:2.5px solid var(--border); background:var(--surface); font-size:18px; font-weight:900; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:var(--shadow-sm); transition:transform 0.1s, box-shadow 0.1s; font-family:var(--font); }
@@ -101,14 +98,13 @@ input[type="color"] { width:42px; height:42px; border:2.5px solid var(--border);
 .cal-dots { display:flex; flex-wrap:wrap; gap:2px; justify-content:center; }
 .cal-dot { width:6px; height:6px; border-radius:50%; flex-shrink:0; }
 
-/* PERM FORM */
 .perm-form { background:var(--surface); border-radius:var(--radius-lg); padding:16px; margin-bottom:16px; border:2.5px solid var(--border); box-shadow:var(--shadow); }
 .field { margin-bottom:12px; }
 .field label { display:block; font-size:10px; font-weight:900; color:var(--text3); text-transform:uppercase; letter-spacing:0.8px; margin-bottom:5px; }
 .field input[type="text"], .field select { width:100%; }
 .time-row { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
 .day-checks { display:flex; flex-wrap:wrap; gap:6px; }
-.day-toggle { display:inline-flex; align-items:center; padding:6px 10px; border-radius:30px; border:2.5px solid var(--border); background:var(--surface); font-family:var(--font); font-size:11px; font-weight:900; color:var(--text2); cursor:pointer; box-shadow:var(--shadow-sm); text-transform:uppercase; letter-spacing:0.3px; transition:transform 0.1s, box-shadow 0.1s; user-select:none; -webkit-user-select:none; touch-action:manipulation; }
+.day-toggle { display:inline-flex; align-items:center; padding:6px 10px; border-radius:30px; border:2.5px solid var(--border); background:var(--surface); font-family:var(--font); font-size:11px; font-weight:900; color:var(--text2); cursor:pointer; box-shadow:var(--shadow-sm); text-transform:uppercase; transition:transform 0.1s, box-shadow 0.1s; user-select:none; -webkit-user-select:none; touch-action:manipulation; }
 .day-toggle:active { transform:translate(2px,2px); box-shadow:none; }
 .day-toggle.active { background:var(--neon2); color:var(--text); }
 
@@ -116,12 +112,11 @@ input[type="color"] { width:42px; height:42px; border:2.5px solid var(--border);
 .perm-item { background:var(--surface); border-radius:var(--radius-lg); border:2.5px solid var(--border); padding:12px 14px; display:flex; align-items:center; gap:10px; box-shadow:var(--shadow-sm); }
 .perm-color { width:14px; height:14px; border-radius:50%; border:2px solid var(--border); flex-shrink:0; }
 .perm-info { flex:1; min-width:0; }
-.perm-name { font-size:13px; font-weight:900; text-transform:uppercase; letter-spacing:0.3px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.perm-name { font-size:13px; font-weight:900; text-transform:uppercase; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .perm-meta { font-size:11px; color:var(--text2); font-weight:700; margin-top:2px; }
 .empty-state { text-align:center; padding:28px 16px; color:var(--text3); font-size:13px; font-weight:700; background:var(--surface); border-radius:var(--radius-lg); border:2.5px dashed var(--border); }
 .add-cat-row { display:flex; gap:8px; align-items:center; margin-bottom:6px; }
 
-/* MODAL */
 .modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:100; align-items:flex-end; justify-content:center; }
 .modal-overlay.open { display:flex; }
 .modal { background:var(--surface); border-radius:20px 20px 0 0; border-top:3px solid var(--border); border-left:3px solid var(--border); border-right:3px solid var(--border); padding:20px 20px 44px; width:100%; max-width:600px; max-height:88vh; overflow-y:auto; }
@@ -140,65 +135,100 @@ input[type="color"] { width:42px; height:42px; border:2.5px solid var(--border);
 .type-card .type-name { font-size:11px; font-weight:900; text-transform:uppercase; letter-spacing:0.5px; color:var(--text); }
 .type-card .type-sub { font-size:10px; color:var(--text3); font-weight:700; }
 
+/* SHARE MODAL */
+.share-link-box { background:var(--surface2); border:2.5px solid var(--border); border-radius:var(--radius); padding:12px; font-size:12px; font-weight:700; word-break:break-all; margin-top:8px; color:var(--text2); box-shadow:var(--shadow-sm); }
+.sync-indicator { display:inline-flex; align-items:center; gap:5px; font-size:11px; font-weight:900; text-transform:uppercase; letter-spacing:0.4px; }
+.sync-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+.sync-dot.green { background:#00d4b8; }
+.sync-dot.yellow { background:#ffe600; }
+.sync-dot.red { background:#ff3cac; }
+
 .status-bar { position:fixed; bottom:24px; left:50%; transform:translateX(-50%); background:var(--text); color:var(--neon3); padding:9px 18px; border-radius:30px; border:2.5px solid var(--border); font-size:12px; font-weight:900; z-index:200; opacity:0; transition:opacity 0.2s; pointer-events:none; white-space:nowrap; box-shadow:var(--shadow); text-transform:uppercase; letter-spacing:0.5px; }
 .status-bar.show { opacity:1; }
+
+.loading-screen { position:fixed; inset:0; background:var(--neon3); display:flex; flex-direction:column; align-items:center; justify-content:center; z-index:300; gap:16px; }
+.loading-screen h2 { font-size:28px; font-weight:900; color:var(--text); }
+.loading-screen p { font-size:13px; font-weight:700; color:var(--text2); text-transform:uppercase; letter-spacing:0.5px; }
+.spinner { width:32px; height:32px; border:4px solid var(--border); border-top-color:var(--neon1); border-radius:50%; animation:spin 0.8s linear infinite; }
+@keyframes spin { to { transform:rotate(360deg); } }
 </style>
 </head>
 <body>
-<div class="deco-strip"></div>
-<header>
-  <h1>Mi horario <span>✦</span></h1>
-  <p class="header-sub" id="header-sub">Selecciona categoría → toca una hora</p>
-</header>
-<div class="tabs">
-  <button class="tab active" onclick="switchTab('schedule')">📅 Semana</button>
-  <button class="tab" onclick="switchTab('month')">🗓 Mes</button>
-  <button class="tab" onclick="switchTab('cats')">🎨 Categorías</button>
-  <button class="tab" onclick="switchTab('permanent')">🔁 Permanentes</button>
+
+<div id="loading-screen" class="loading-screen">
+  <div style="font-size:40px">✦</div>
+  <h2>Mi Horario</h2>
+  <div class="spinner"></div>
+  <p id="loading-msg">Cargando...</p>
 </div>
 
-<div id="tab-schedule" class="panel active">
-  <p class="section-title">Categoría activa</p>
-  <div class="legend-chips" id="legend-chips"></div>
-  <p class="section-title">Día de la semana</p>
-  <div class="day-nav" id="day-nav"></div>
-  <div class="schedule-wrap" id="schedule-wrap"></div>
-</div>
+<div id="app" style="display:none">
+  <div class="deco-strip"></div>
 
-<div id="tab-month" class="panel">
-  <div class="month-nav">
-    <button class="month-arrow" onclick="changeMonth(-1)">‹</button>
-    <div class="month-title" id="month-title"></div>
-    <button class="month-arrow" onclick="changeMonth(1)">›</button>
+  <div id="readonly-banner" class="readonly-banner" style="display:none">
+    👁 Estás viendo el horario de otra persona — solo lectura
   </div>
-  <div class="cal-grid" id="cal-grid"></div>
-</div>
 
-<div id="tab-cats" class="panel">
-  <p class="section-title">Nueva categoría</p>
-  <div class="add-cat-row">
-    <input type="text" id="catName" placeholder="Nombre..." style="flex:1" />
-    <input type="color" id="catColor" value="#ff3cac" />
-    <button class="btn btn-neon1" onclick="addCategory()">+ Add</button>
-  </div>
-  <p class="section-title">Mis categorías</p>
-  <div id="cat-list" class="perm-list"></div>
-</div>
-
-<div id="tab-permanent" class="panel">
-  <p class="section-title">Nueva tarea permanente</p>
-  <div class="perm-form">
-    <div class="field"><label>Nombre</label><input type="text" id="perm-name" placeholder="ej: Meditación mañanera" /></div>
-    <div class="field"><label>Categoría</label><select id="perm-cat"></select></div>
-    <div class="time-row">
-      <div class="field"><label>Hora inicio</label><select id="perm-start"></select></div>
-      <div class="field"><label>Hora fin</label><select id="perm-end"></select></div>
+  <header>
+    <div class="header-inner">
+      <div>
+        <h1>Mi horario <span>✦</span></h1>
+        <p class="header-sub" id="header-sub">Selecciona categoría → toca una hora</p>
+      </div>
+      <button class="share-btn" id="share-btn" onclick="openShareModal()">🔗 Compartir</button>
     </div>
-    <div class="field"><label>Días</label><div class="day-checks" id="perm-days"></div></div>
-    <button class="btn btn-neon2" style="width:100%;padding:13px;font-size:13px;margin-top:6px" onclick="addPermanent()">+ Agregar tarea permanente</button>
+  </header>
+
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('schedule')">📅 Semana</button>
+    <button class="tab" onclick="switchTab('month')">🗓 Mes</button>
+    <button class="tab" onclick="switchTab('cats')">🎨 Categorías</button>
+    <button class="tab" onclick="switchTab('permanent')">🔁 Permanentes</button>
   </div>
-  <p class="section-title">Tareas guardadas</p>
-  <div id="perm-list" class="perm-list"></div>
+
+  <div id="tab-schedule" class="panel active">
+    <p class="section-title">Categoría activa</p>
+    <div class="legend-chips" id="legend-chips"></div>
+    <p class="section-title">Día de la semana</p>
+    <div class="day-nav" id="day-nav"></div>
+    <div class="schedule-wrap" id="schedule-wrap"></div>
+  </div>
+
+  <div id="tab-month" class="panel">
+    <div class="month-nav">
+      <button class="month-arrow" onclick="changeMonth(-1)">‹</button>
+      <div class="month-title" id="month-title"></div>
+      <button class="month-arrow" onclick="changeMonth(1)">›</button>
+    </div>
+    <div class="cal-grid" id="cal-grid"></div>
+  </div>
+
+  <div id="tab-cats" class="panel">
+    <p class="section-title">Nueva categoría</p>
+    <div class="add-cat-row">
+      <input type="text" id="catName" placeholder="Nombre..." style="flex:1" />
+      <input type="color" id="catColor" value="#ff3cac" />
+      <button class="btn btn-neon1" onclick="addCategory()">+ Add</button>
+    </div>
+    <p class="section-title">Mis categorías</p>
+    <div id="cat-list" class="perm-list"></div>
+  </div>
+
+  <div id="tab-permanent" class="panel">
+    <p class="section-title">Nueva tarea permanente</p>
+    <div class="perm-form">
+      <div class="field"><label>Nombre</label><input type="text" id="perm-name" placeholder="ej: Meditación mañanera" /></div>
+      <div class="field"><label>Categoría</label><select id="perm-cat"></select></div>
+      <div class="time-row">
+        <div class="field"><label>Hora inicio</label><select id="perm-start"></select></div>
+        <div class="field"><label>Hora fin</label><select id="perm-end"></select></div>
+      </div>
+      <div class="field"><label>Días</label><div class="day-checks" id="perm-days"></div></div>
+      <button class="btn btn-neon2" style="width:100%;padding:13px;font-size:13px;margin-top:6px" onclick="addPermanent()">+ Agregar tarea permanente</button>
+    </div>
+    <p class="section-title">Tareas guardadas</p>
+    <div id="perm-list" class="perm-list"></div>
+  </div>
 </div>
 
 <div class="modal-overlay" id="modal-overlay" onclick="closeModalIfBg(event)">
@@ -206,7 +236,25 @@ input[type="color"] { width:42px; height:42px; border:2.5px solid var(--border);
 </div>
 <div class="status-bar" id="status-bar"></div>
 
-<script>
+<!-- Firebase -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, set, get, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDvPBALxUGk2tzVZ9_aoeXNFG2bjqJlW9w",
+  authDomain: "mi-horario-eedd4.firebaseapp.com",
+  databaseURL: "https://mi-horario-eedd4-default-rtdb.firebaseio.com",
+  projectId: "mi-horario-eedd4",
+  storageBucket: "mi-horario-eedd4.firebasestorage.app",
+  messagingSenderId: "751665473672",
+  appId: "1:751665473672:web:2796a88c064e846f0c973d"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+// ── HELPERS ──
 const DAYS=['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];
 const MONTHS=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
 const HOURS=[];for(let h=6;h<24;h++)HOURS.push(h);
@@ -215,9 +263,11 @@ let categories=[],events={},permanents=[];
 let selectedCat=null;
 let currentDay=DAYS[new Date().getDay()===0?6:new Date().getDay()-1];
 let calYear=new Date().getFullYear(),calMonth=new Date().getMonth();
+let myUserId=null;
+let isReadOnly=false;
+let saveTimeout=null;
 
 function todayStr(){return new Date().toISOString().slice(0,10);}
-
 function getDateForDay(dayName){
   const today=new Date();
   const todayIdx=today.getDay()===0?6:today.getDay()-1;
@@ -225,40 +275,202 @@ function getDateForDay(dayName){
   const d=new Date(today);d.setDate(d.getDate()+diff);
   return d.toISOString().slice(0,10);
 }
-
 function getDayNameFromDate(dateStr){
   const d=new Date(dateStr+'T12:00:00');
   return DAYS[d.getDay()===0?6:d.getDay()-1];
 }
-
 function formatDateLabel(dateStr){
   if(!dateStr)return'';
   const[y,m,d]=dateStr.split('-');return`${d}/${m}/${y}`;
 }
+function genId(){return Math.random().toString(36).slice(2,10);}
 
-function load(){
-  try{const d=localStorage.getItem('horario_cats');if(d)categories=JSON.parse(d);}catch(e){}
-  try{const d=localStorage.getItem('horario_events');if(d)events=JSON.parse(d);}catch(e){}
-  try{const d=localStorage.getItem('horario_perms');if(d)permanents=JSON.parse(d);}catch(e){}
-  if(categories.length===0){
-    categories=[
-      {id:'c1',name:'Trabajo',color:'#7b2fff'},
-      {id:'c2',name:'Estudio',color:'#00b89e'},
-      {id:'c3',name:'Personal',color:'#ff3cac'},
-    ];
+// ── INIT ──
+async function init(){
+  setLoading('Iniciando...');
+
+  // Check if viewing someone else's schedule
+  const params=new URLSearchParams(window.location.search);
+  const viewId=params.get('ver');
+
+  if(viewId){
+    // READ ONLY MODE
+    isReadOnly=true;
+    setLoading('Cargando horario...');
+    try{
+      const snap=await get(ref(db,`horarios/${viewId}`));
+      if(snap.exists()){
+        const data=snap.val();
+        categories=data.categories||[];
+        events=data.events||{};
+        permanents=data.permanents||[];
+        document.getElementById('readonly-banner').style.display='block';
+        document.getElementById('share-btn').style.display='none';
+        // Hide edit tabs
+        document.querySelector('.tabs').style.display='none';
+        hideApp();
+        showApp();
+        renderAll();
+        // Listen for live updates
+        onValue(ref(db,`horarios/${viewId}`),snap=>{
+          if(snap.exists()){
+            const d=snap.val();
+            categories=d.categories||[];
+            events=d.events||{};
+            permanents=d.permanents||[];
+            renderAll();
+          }
+        });
+      }else{
+        showError('No se encontró este horario.');
+      }
+    }catch(e){
+      showError('Error al cargar el horario.');
+    }
+  }else{
+    // OWN SCHEDULE
+    myUserId=localStorage.getItem('horario_uid');
+    if(!myUserId){
+      myUserId=genId();
+      localStorage.setItem('horario_uid',myUserId);
+    }
+    setLoading('Cargando tu horario...');
+    try{
+      const snap=await get(ref(db,`horarios/${myUserId}`));
+      if(snap.exists()){
+        const data=snap.val();
+        categories=data.categories||[];
+        events=data.events||{};
+        permanents=data.permanents||[];
+      }else{
+        // First time — default categories
+        categories=[
+          {id:'c1',name:'Trabajo',color:'#7b2fff'},
+          {id:'c2',name:'Estudio',color:'#00b89e'},
+          {id:'c3',name:'Personal',color:'#ff3cac'},
+        ];
+        await saveToCloud();
+      }
+    }catch(e){
+      // Fallback to localStorage
+      try{const d=localStorage.getItem('horario_cats');if(d)categories=JSON.parse(d);}catch(e){}
+      try{const d=localStorage.getItem('horario_events');if(d)events=JSON.parse(d);}catch(e){}
+      try{const d=localStorage.getItem('horario_perms');if(d)permanents=JSON.parse(d);}catch(e){}
+      if(categories.length===0){
+        categories=[
+          {id:'c1',name:'Trabajo',color:'#7b2fff'},
+          {id:'c2',name:'Estudio',color:'#00b89e'},
+          {id:'c3',name:'Personal',color:'#ff3cac'},
+        ];
+      }
+    }
+    buildHourSelects();buildPermDayChecks();
+    showApp();renderAll();
   }
-  buildHourSelects();buildPermDayChecks();renderAll();
 }
 
-function save(){
+function setLoading(msg){
+  document.getElementById('loading-msg').textContent=msg;
+}
+
+function showApp(){
+  document.getElementById('loading-screen').style.display='none';
+  document.getElementById('app').style.display='block';
+  if(isReadOnly){
+    // Only show schedule and month tabs in readonly
+    document.querySelectorAll('.tab')[2].style.display='none';
+    document.querySelectorAll('.tab')[3].style.display='none';
+  }
+  buildHourSelects();buildPermDayChecks();
+}
+
+function showError(msg){
+  document.getElementById('loading-screen').innerHTML=`
+    <div style="font-size:40px">😕</div>
+    <h2 style="font-size:20px">${msg}</h2>
+    <a href="/" style="color:var(--text);font-weight:900;font-size:13px;text-transform:uppercase;letter-spacing:0.5px">← Ir a mi horario</a>
+  `;
+}
+
+// ── SAVE ──
+async function saveToCloud(){
+  if(isReadOnly||!myUserId)return;
   try{
+    await set(ref(db,`horarios/${myUserId}`),{
+      categories,events,permanents,updatedAt:Date.now()
+    });
+    // Also save locally as backup
     localStorage.setItem('horario_cats',JSON.stringify(categories));
     localStorage.setItem('horario_events',JSON.stringify(events));
     localStorage.setItem('horario_perms',JSON.stringify(permanents));
     showStatus('✦ Guardado');
-  }catch(e){showStatus('Error al guardar');}
+  }catch(e){
+    showStatus('Sin conexión — guardado local');
+    localStorage.setItem('horario_cats',JSON.stringify(categories));
+    localStorage.setItem('horario_events',JSON.stringify(events));
+    localStorage.setItem('horario_perms',JSON.stringify(permanents));
+  }
 }
 
+function scheduleSave(){
+  if(saveTimeout)clearTimeout(saveTimeout);
+  saveTimeout=setTimeout(saveToCloud,800);
+}
+
+// ── SHARE ──
+function openShareModal(){
+  const url=`${location.origin}${location.pathname}?ver=${myUserId}`;
+  showModal(`
+    <h3>🔗 Compartir mi horario</h3>
+    <p style="font-size:13px;color:var(--text2);font-weight:700;margin-bottom:4px">Cualquiera con este link puede ver tu horario en tiempo real:</p>
+    <div class="share-link-box" id="share-link-text">${url}</div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal()">Cerrar</button>
+      <button class="btn btn-neon4" onclick="copyShareLink('${url}')">📋 Copiar link</button>
+    </div>
+    <div style="margin-top:16px;padding-top:14px;border-top:1.5px dashed var(--border)">
+      <p style="font-size:11px;font-weight:900;color:var(--text3);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px">Ver el horario de alguien más</p>
+      <div style="display:flex;gap:8px">
+        <input type="text" id="view-link-input" placeholder="Pega aquí el link de tu amigo/a" style="flex:1;font-size:13px" />
+        <button class="btn" onclick="openFriendLink()">Ver</button>
+      </div>
+    </div>
+  `);
+}
+
+function copyShareLink(url){
+  navigator.clipboard.writeText(url).then(()=>{
+    showStatus('✦ Link copiado');
+  }).catch(()=>{
+    // Fallback
+    const el=document.getElementById('share-link-text');
+    const range=document.createRange();
+    range.selectNode(el);
+    window.getSelection().removeAllRanges();
+    window.getSelection().addRange(range);
+    document.execCommand('copy');
+    showStatus('✦ Link copiado');
+  });
+}
+
+function openFriendLink(){
+  const input=document.getElementById('view-link-input').value.trim();
+  if(!input){showStatus('★ Pega un link primero');return;}
+  // Extract the ?ver= param
+  try{
+    const url=new URL(input);
+    const ver=url.searchParams.get('ver');
+    if(ver){
+      window.open(`${location.origin}${location.pathname}?ver=${ver}`,'_blank');
+    }else{
+      showStatus('★ Link inválido');
+    }
+  }catch(e){
+    showStatus('★ Link inválido');
+  }
+}
+
+// ── UI HELPERS ──
 function showStatus(msg){
   const el=document.getElementById('status-bar');
   el.textContent=msg;el.classList.add('show');
@@ -267,14 +479,14 @@ function showStatus(msg){
 
 function buildHourSelects(){
   ['perm-start','perm-end'].forEach(id=>{
-    const sel=document.getElementById(id);
+    const sel=document.getElementById(id);if(!sel)return;
     sel.innerHTML=HOURS.map(h=>`<option value="${h}">${h}:00</option>`).join('');
   });
-  document.getElementById('perm-end').value=7;
+  const pe=document.getElementById('perm-end');if(pe)pe.value=7;
 }
 
 function buildPermDayChecks(){
-  const wrap=document.getElementById('perm-days');
+  const wrap=document.getElementById('perm-days');if(!wrap)return;
   wrap.innerHTML='';
   DAYS.forEach(d=>{
     const btn=document.createElement('button');
@@ -290,11 +502,12 @@ function buildPermDayChecks(){
 }
 
 function updatePermCatSelect(){
-  document.getElementById('perm-cat').innerHTML=
-    categories.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
+  const sel=document.getElementById('perm-cat');if(!sel)return;
+  sel.innerHTML=categories.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
 }
 
 function switchTab(name){
+  if(isReadOnly&&(name==='cats'||name==='permanent'))return;
   const names=['schedule','month','cats','permanent'];
   document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',names[i]===name));
   names.forEach(n=>document.getElementById('tab-'+n).classList.toggle('active',n===name));
@@ -302,30 +515,35 @@ function switchTab(name){
   if(name==='month')renderCalendar();
 }
 
+// ── CATEGORIES ──
 function addCategory(){
+  if(isReadOnly)return;
   const name=document.getElementById('catName').value.trim();
   const color=document.getElementById('catColor').value;
   if(!name)return;
   categories.push({id:'c'+Date.now(),name,color});
   document.getElementById('catName').value='';
-  renderAll();save();
+  renderAll();scheduleSave();
 }
 
 function deleteCategory(id){
+  if(isReadOnly)return;
   categories=categories.filter(c=>c.id!==id);
   Object.keys(events).forEach(k=>{if(events[k]?.catId===id)delete events[k];});
   permanents=permanents.filter(p=>p.catId!==id);
   if(selectedCat===id)selectedCat=null;
-  renderAll();save();closeModal();
+  renderAll();scheduleSave();closeModal();
 }
 
 function selectCat(id){
+  if(isReadOnly)return;
   selectedCat=(selectedCat===id)?null:id;
   renderChips();updateHeaderSub();
 }
 
 function updateHeaderSub(){
-  const el=document.getElementById('header-sub');
+  const el=document.getElementById('header-sub');if(!el)return;
+  if(isReadOnly){el.textContent='Modo solo lectura';return;}
   if(selectedCat){
     const cat=categories.find(c=>c.id===selectedCat);
     el.textContent=cat?`★ ${cat.name.toUpperCase()} activa · toca una hora`:'';
@@ -334,8 +552,9 @@ function updateHeaderSub(){
   }
 }
 
+// ── RENDER ──
 function renderChips(){
-  const wrap=document.getElementById('legend-chips');
+  const wrap=document.getElementById('legend-chips');if(!wrap)return;
   wrap.innerHTML='';
   categories.forEach(c=>{
     const chip=document.createElement('div');
@@ -343,13 +562,13 @@ function renderChips(){
     chip.style.background=selectedCat===c.id?c.color:'';
     chip.style.borderColor=selectedCat===c.id?c.color:'';
     chip.innerHTML=`<span class="chip-dot" style="background:${c.color}"></span>${c.name}`;
-    chip.onclick=()=>selectCat(c.id);
+    if(!isReadOnly)chip.onclick=()=>selectCat(c.id);
     wrap.appendChild(chip);
   });
 }
 
 function renderDayNav(){
-  const wrap=document.getElementById('day-nav');
+  const wrap=document.getElementById('day-nav');if(!wrap)return;
   wrap.innerHTML='';
   const today=todayStr();
   DAYS.forEach(d=>{
@@ -368,55 +587,44 @@ function getPermForCell(day,hour){
 }
 
 function renderSchedule(){
-  const wrap=document.getElementById('schedule-wrap');
+  const wrap=document.getElementById('schedule-wrap');if(!wrap)return;
   wrap.innerHTML='';
   const viewDate=getDateForDay(currentDay);
   HOURS.forEach(h=>{
-    const row=document.createElement('div');
-    row.className='schedule-row';
-    const tc=document.createElement('div');
-    tc.className='time-col';tc.textContent=h+':00';
+    const row=document.createElement('div');row.className='schedule-row';
+    const tc=document.createElement('div');tc.className='time-col';tc.textContent=h+':00';
     row.appendChild(tc);
     const key=currentDay+'_'+h;
     const perm=getPermForCell(currentDay,h);
     const ev=events[key];
     const evVisible=ev&&ev.date===viewDate;
-    const ec=document.createElement('div');
-    ec.className='event-col';
+    const ec=document.createElement('div');ec.className='event-col';
     if(perm){
       const cat=categories.find(c=>c.id===perm.catId);
       if(cat){
-        const block=document.createElement('div');
-        block.className='event-block';
-        block.style.background=cat.color+'22';
-        block.style.color=cat.color;
-        block.style.borderColor=cat.color+'70';
-        block.style.borderStyle='dashed';
+        const block=document.createElement('div');block.className='event-block';
+        block.style.background=cat.color+'22';block.style.color=cat.color;
+        block.style.borderColor=cat.color+'70';block.style.borderStyle='dashed';
         block.innerHTML=`<span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${perm.name}</span><span class="perm-dot" style="background:${cat.color}"></span>`;
-        block.onclick=()=>openPermDetail(perm);
-        ec.appendChild(block);ec.style.cursor='default';
+        if(!isReadOnly)block.onclick=()=>openPermDetail(perm);
+        ec.appendChild(block);ec.style.cursor=isReadOnly?'default':'pointer';
       }
     }else if(evVisible){
       const cat=categories.find(c=>c.id===ev.catId);
       if(cat){
-        const block=document.createElement('div');
-        block.className='event-block';
-        block.style.background=cat.color;
-        block.style.color='#fff';
-        block.style.borderColor=cat.color;
+        const block=document.createElement('div');block.className='event-block';
+        block.style.background=cat.color;block.style.color='#fff';block.style.borderColor=cat.color;
         block.innerHTML=`<span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${ev.label||cat.name}</span><span style="font-size:9px;background:rgba(255,255,255,0.25);padding:1px 5px;border-radius:10px;flex-shrink:0;margin-left:5px;font-weight:900">HOY</span>`;
-        block.onclick=()=>openEditEvent(key,ev,cat);
+        if(!isReadOnly)block.onclick=()=>openEditEvent(key,ev,cat);
         ec.appendChild(block);
-        ec.onclick=(e)=>{if(e.target===ec)openEditEvent(key,ev,cat);};
       }
-    }else{
+    }else if(!isReadOnly){
       ec.onclick=()=>cellClick(key,viewDate);
     }
     row.appendChild(ec);wrap.appendChild(row);
   });
 }
 
-/* ── CALENDAR ── */
 function changeMonth(dir){
   calMonth+=dir;
   if(calMonth>11){calMonth=0;calYear++;}
@@ -437,8 +645,10 @@ function hasActivityOnDate(dateStr){
 }
 
 function renderCalendar(){
-  document.getElementById('month-title').textContent=`${MONTHS[calMonth]} ${calYear}`;
+  const titleEl=document.getElementById('month-title');
   const grid=document.getElementById('cal-grid');
+  if(!titleEl||!grid)return;
+  titleEl.textContent=`${MONTHS[calMonth]} ${calYear}`;
   grid.innerHTML='';
   ['Lu','Ma','Mi','Ju','Vi','Sá','Do'].forEach(d=>{
     const el=document.createElement('div');el.className='cal-dow';el.textContent=d;grid.appendChild(el);
@@ -464,33 +674,30 @@ function renderCalendar(){
 
 function openDayFromCalendar(dateStr){
   const dayName=getDayNameFromDate(dateStr);
-  currentDay=dayName;
-  switchTab('schedule');
+  currentDay=dayName;switchTab('schedule');
   renderDayNav();renderSchedule();
   showStatus(`★ ${dayName} ${formatDateLabel(dateStr)}`);
 }
 
 function renderCatList(){
-  const list=document.getElementById('cat-list');
+  const list=document.getElementById('cat-list');if(!list)return;
   if(categories.length===0){list.innerHTML='<div class="empty-state">No hay categorías aún.</div>';return;}
   list.innerHTML='';
   categories.forEach(c=>{
-    const item=document.createElement('div');
-    item.className='perm-item';
+    const item=document.createElement('div');item.className='perm-item';
     item.innerHTML=`<span class="perm-color" style="background:${c.color}"></span><div class="perm-info"><div class="perm-name" style="color:${c.color}">${c.name}</div></div><button class="btn btn-danger" onclick="confirmDeleteCat('${c.id}')">Eliminar</button>`;
     list.appendChild(item);
   });
 }
 
 function renderPermList(){
-  const list=document.getElementById('perm-list');
+  const list=document.getElementById('perm-list');if(!list)return;
   if(permanents.length===0){list.innerHTML='<div class="empty-state">No hay tareas permanentes aún.</div>';return;}
   list.innerHTML='';
   permanents.forEach(p=>{
     const cat=categories.find(c=>c.id===p.catId);if(!cat)return;
     const daysStr=p.days.length===7?'Todos los días':p.days.map(d=>d.slice(0,3)).join(', ');
-    const item=document.createElement('div');
-    item.className='perm-item';
+    const item=document.createElement('div');item.className='perm-item';
     item.style.borderLeft=`5px solid ${cat.color}`;
     item.innerHTML=`<span class="perm-color" style="background:${cat.color}"></span><div class="perm-info"><div class="perm-name">${p.name}</div><div class="perm-meta">${cat.name} · ${p.startH}:00–${p.endH}:00 · ${daysStr}</div></div><button class="btn btn-danger" onclick="deletePermanent('${p.id}')">✕</button>`;
     list.appendChild(item);
@@ -501,8 +708,9 @@ function renderAll(){
   renderChips();renderDayNav();renderSchedule();renderCatList();renderPermList();updateHeaderSub();
 }
 
-/* ── CELL CLICK ── */
+// ── CELL INTERACTIONS ──
 function cellClick(key,date){
+  if(isReadOnly)return;
   if(!selectedCat){showStatus('★ Elige una categoría primero');return;}
   openTypeChooser(key,date);
 }
@@ -543,7 +751,7 @@ function openNewTempEvent(key,catId,date){
       <span style="width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.6);display:inline-block;flex-shrink:0"></span>
       ${cat.name}
     </div>
-    <div style="font-size:11px;color:var(--text2);font-weight:700;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">${day} · ${h}:00 · ${formatDateLabel(date)}</div>
+    <div style="font-size:11px;color:var(--text2);font-weight:700;text-transform:uppercase;margin-bottom:4px">${day} · ${h}:00 · ${formatDateLabel(date)}</div>
     <label>Descripción (opcional)</label>
     <input type="text" id="ev-label" placeholder="ej: Cita médica" />
     <div class="modal-actions">
@@ -557,13 +765,12 @@ function openNewTempEvent(key,catId,date){
 function saveTempEvent(key,catId,date){
   const label=document.getElementById('ev-label')?.value.trim()||'';
   events[key]={catId,label,date};
-  closeModal();renderSchedule();renderCalendar();save();
+  closeModal();renderSchedule();renderCalendar();scheduleSave();
 }
 
 function openNewPermFromCell(day,h,catId){
   const cat=categories.find(c=>c.id===catId);if(!cat)return;
-  const startH=parseInt(h);
-  const endH=Math.min(startH+1,23);
+  const startH=parseInt(h),endH=Math.min(startH+1,23);
   const daysHtml=DAYS.map(d=>`<button type="button" class="day-toggle${d===day?' active':''}" data-day="${d}" data-selected="${d===day?'true':'false'}" onclick="this.dataset.selected=this.dataset.selected==='true'?'false':'true';this.classList.toggle('active',this.dataset.selected==='true')">${d.slice(0,3)}</button>`).join('');
   showModal(`
     <h3>Evento permanente</h3>
@@ -596,15 +803,15 @@ function savePermFromModal(catId){
   if(endH<=startH){showStatus('★ La hora fin debe ser mayor');return;}
   if(days.length===0){showStatus('★ Elige al menos un día');return;}
   permanents.push({id:'p'+Date.now(),name,catId,startH,endH,days});
-  closeModal();renderAll();save();
+  closeModal();renderAll();scheduleSave();
 }
 
 function openEditEvent(key,ev,cat){
-  if(!cat)return;
+  if(!cat||isReadOnly)return;
   const[day,h]=key.split('_');
   showModal(`
     <h3>Editar evento</h3>
-    <div style="font-size:11px;color:var(--text2);font-weight:700;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px">${day} · ${h}:00 · ${formatDateLabel(ev.date)}</div>
+    <div style="font-size:11px;color:var(--text2);font-weight:700;text-transform:uppercase;margin-bottom:8px">${day} · ${h}:00 · ${formatDateLabel(ev.date)}</div>
     <label>Categoría</label>
     <select id="ev-cat">${categories.map(c=>`<option value="${c.id}"${c.id===ev.catId?' selected':''}>${c.name}</option>`).join('')}</select>
     <label>Descripción</label>
@@ -621,14 +828,15 @@ function saveEditEvent(key,date){
   const catId=document.getElementById('ev-cat').value;
   const label=document.getElementById('ev-label')?.value.trim()||'';
   events[key]={catId,label,date};
-  closeModal();renderSchedule();renderCalendar();save();
+  closeModal();renderSchedule();renderCalendar();scheduleSave();
 }
 
 function deleteEvent(key){
-  delete events[key];closeModal();renderSchedule();renderCalendar();save();
+  delete events[key];closeModal();renderSchedule();renderCalendar();scheduleSave();
 }
 
 function addPermanent(){
+  if(isReadOnly)return;
   const name=document.getElementById('perm-name').value.trim();
   const catId=document.getElementById('perm-cat').value;
   const startH=parseInt(document.getElementById('perm-start').value);
@@ -640,11 +848,12 @@ function addPermanent(){
   if(days.length===0){showStatus('★ Elige al menos un día');return;}
   permanents.push({id:'p'+Date.now(),name,catId,startH,endH,days});
   document.getElementById('perm-name').value='';
-  renderAll();save();
+  renderAll();scheduleSave();
 }
 
 function deletePermanent(id){
-  permanents=permanents.filter(p=>p.id!==id);renderAll();save();
+  if(isReadOnly)return;
+  permanents=permanents.filter(p=>p.id!==id);renderAll();scheduleSave();
 }
 
 function openPermDetail(perm){
@@ -658,7 +867,7 @@ function openPermDetail(perm){
       <div>Días: <strong style="color:var(--text)">${daysStr}</strong></div>
     </div>
     <div class="modal-actions">
-      <button class="btn btn-danger" onclick="deletePermanent('${perm.id}');closeModal()">Eliminar</button>
+      ${!isReadOnly?`<button class="btn btn-danger" onclick="deletePermanent('${perm.id}');closeModal()">Eliminar</button>`:''}
       <button class="btn btn-outline" onclick="closeModal()">Cerrar</button>
     </div>
   `);
@@ -680,7 +889,18 @@ function showModal(html){document.getElementById('modal-body').innerHTML=html;do
 function closeModal(){document.getElementById('modal-overlay').classList.remove('open');}
 function closeModalIfBg(e){if(e.target===document.getElementById('modal-overlay'))closeModal();}
 
-load();
+// Make functions global for onclick handlers
+window.switchTab=switchTab;window.addCategory=addCategory;window.selectCat=selectCat;
+window.changeMonth=changeMonth;window.addPermanent=addPermanent;window.deletePermanent=deletePermanent;
+window.deleteCategory=deleteCategory;window.confirmDeleteCat=confirmDeleteCat;
+window.openShareModal=openShareModal;window.copyShareLink=copyShareLink;window.openFriendLink=openFriendLink;
+window.cellClick=cellClick;window.openTypeChooser=openTypeChooser;
+window.openNewTempEvent=openNewTempEvent;window.saveTempEvent=saveTempEvent;
+window.openNewPermFromCell=openNewPermFromCell;window.savePermFromModal=savePermFromModal;
+window.openEditEvent=openEditEvent;window.saveEditEvent=saveEditEvent;window.deleteEvent=deleteEvent;
+window.openPermDetail=openPermDetail;window.closeModal=closeModal;window.closeModalIfBg=closeModalIfBg;
+
+init();
 </script>
 </body>
 </html>
