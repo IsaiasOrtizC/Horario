@@ -320,9 +320,7 @@ async function init(){
         permanents=data.permanents||[];
         document.getElementById('readonly-banner').style.display='block';
         document.getElementById('share-btn').style.display='none';
-        // Hide edit tabs
         document.querySelector('.tabs').style.display='none';
-        hideApp();
         showApp();
         renderAll();
         // Listen for live updates
@@ -391,11 +389,12 @@ function showApp(){
   document.getElementById('loading-screen').style.display='none';
   document.getElementById('app').style.display='block';
   if(isReadOnly){
-    // Only show schedule and month tabs in readonly
     document.querySelectorAll('.tab')[2].style.display='none';
     document.querySelectorAll('.tab')[3].style.display='none';
+  } else {
+    buildHourSelects();
+    buildPermDayChecks();
   }
-  buildHourSelects();buildPermDayChecks();
 }
 
 function showError(msg){
