@@ -143,6 +143,49 @@ input[type="color"] { width:42px; height:42px; border:1px solid var(--border-hi)
 /* SHARE */
 .share-link-box { background:var(--surface2); border:1px solid var(--border-hi); border-radius:2px; padding:12px; font-size:11px; font-weight:700; word-break:break-all; margin-top:8px; color:var(--text2); letter-spacing:0.3px; }
 
+.stats-period-btn { padding:6px 14px; font-family:var(--font); font-size:10px; font-weight:900; background:transparent; color:var(--text3); border:1px solid var(--border); border-radius:2px; cursor:pointer; text-transform:uppercase; letter-spacing:1px; transition:all 0.15s; }
+.stats-period-btn.active { background:var(--accent); color:#fff; border-color:var(--accent); }
+.stats-alert { background:var(--surface2); border-left:3px solid var(--accent); padding:10px 14px; margin-bottom:16px; font-size:11px; font-weight:700; color:var(--text2); letter-spacing:0.5px; line-height:1.6; }
+.stats-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:20px; }
+.stat-card { background:var(--surface); border:1px solid var(--border); padding:14px 12px; }
+.stat-card-label { font-size:9px; font-weight:900; color:var(--text3); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:6px; }
+.stat-card-value { font-size:22px; font-weight:900; color:var(--white); line-height:1; }
+.stat-card-value span { font-size:11px; color:var(--text3); font-weight:700; margin-left:3px; }
+.stat-card-sub { font-size:10px; color:var(--text3); margin-top:4px; letter-spacing:0.5px; }
+.stat-card.accent { border-color:var(--accent); }
+.stat-card.accent .stat-card-value { color:var(--accent); }
+.chart-wrap { background:var(--surface); border:1px solid var(--border); padding:16px 12px; margin-bottom:4px; }
+.chart-bar-wrap { display:flex; gap:4px; align-items:flex-end; height:100px; margin-top:8px; }
+.chart-bar-col { flex:1; display:flex; flex-direction:column; align-items:center; gap:4px; height:100%; justify-content:flex-end; }
+.chart-bar { width:100%; border-radius:1px; min-height:2px; transition:height 0.4s; position:relative; }
+.chart-bar-label { font-size:8px; font-weight:900; color:var(--text3); text-transform:uppercase; letter-spacing:0.5px; }
+.chart-bar-val { font-size:8px; font-weight:900; color:var(--text2); }
+.pie-wrap { display:flex; align-items:center; gap:20px; background:var(--surface); border:1px solid var(--border); padding:16px; margin-bottom:4px; }
+.pie-legend { flex:1; display:flex; flex-direction:column; gap:8px; }
+.pie-legend-item { display:flex; align-items:center; gap:8px; font-size:11px; font-weight:700; color:var(--text2); }
+.pie-legend-dot { width:10px; height:10px; border-radius:1px; flex-shrink:0; }
+.pie-legend-pct { margin-left:auto; font-size:12px; font-weight:900; color:var(--white); }
+.add-goal-row { display:flex; gap:8px; align-items:center; margin-top:10px; }
+.goal-item { background:var(--surface); border:1px solid var(--border); padding:12px 14px; margin-bottom:6px; }
+.goal-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
+.goal-name { font-size:11px; font-weight:900; text-transform:uppercase; letter-spacing:0.8px; color:var(--white); }
+.goal-pct { font-size:11px; font-weight:900; color:var(--accent); }
+.goal-bar-bg { height:4px; background:var(--surface2); border-radius:0; overflow:hidden; }
+.goal-bar-fill { height:100%; border-radius:0; transition:width 0.5s; }
+.goal-meta { font-size:10px; color:var(--text3); margin-top:5px; letter-spacing:0.5px; }
+.week-compare { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.compare-item { background:var(--surface); border:1px solid var(--border); padding:12px; }
+.compare-label { font-size:9px; font-weight:900; color:var(--text3); text-transform:uppercase; letter-spacing:1px; margin-bottom:6px; }
+.compare-val { font-size:18px; font-weight:900; color:var(--white); }
+.compare-val span { font-size:10px; color:var(--text3); margin-left:2px; }
+.compare-diff { font-size:10px; margin-top:3px; font-weight:700; }
+.compare-diff.up { color:#4caf50; }
+.compare-diff.down { color:var(--accent); }
+.insights-list { display:flex; flex-direction:column; gap:6px; margin-bottom:20px; }
+.insight-item { background:var(--surface); border-left:2px solid var(--border-hi); padding:10px 14px; font-size:11px; font-weight:700; color:var(--text2); line-height:1.5; letter-spacing:0.3px; }
+.insight-item.warn { border-left-color:var(--accent); color:var(--text); }
+.insight-item.good { border-left-color:#4caf50; }
+
 .status-bar { position:fixed; bottom:24px; left:50%; transform:translateX(-50%); background:var(--white); color:#000; padding:8px 18px; border-radius:2px; border:none; font-size:10px; font-weight:900; z-index:200; opacity:0; transition:opacity 0.2s; pointer-events:none; white-space:nowrap; text-transform:uppercase; letter-spacing:1.5px; }
 .status-bar.show { opacity:1; }
 
@@ -182,8 +225,9 @@ input[type="color"] { width:42px; height:42px; border:1px solid var(--border-hi)
   <div class="tabs">
     <button class="tab active" onclick="switchTab('schedule')">📅 Semana</button>
     <button class="tab" onclick="switchTab('month')">🗓 Mes</button>
-    <button class="tab" onclick="switchTab('cats')">🎨 Categorías</button>
-    <button class="tab" onclick="switchTab('permanent')">🔁 Permanentes</button>
+    <button class="tab" onclick="switchTab('stats')">📊 Stats</button>
+    <button class="tab" onclick="switchTab('cats')">🎨 Cats</button>
+    <button class="tab" onclick="switchTab('permanent')">🔁 Fijos</button>
   </div>
 
   <div id="tab-schedule" class="panel active">
@@ -228,6 +272,50 @@ input[type="color"] { width:42px; height:42px; border:1px solid var(--border-hi)
     </div>
     <p class="section-title">Tareas guardadas</p>
     <div id="perm-list" class="perm-list"></div>
+  </div>
+  <div id="tab-stats" class="panel">
+    <!-- FILTRO DE PERÍODO -->
+    <div style="display:flex;gap:6px;margin-bottom:20px">
+      <button class="stats-period-btn active" id="period-week" onclick="setStatsPeriod('week')">Esta semana</button>
+      <button class="stats-period-btn" id="period-month" onclick="setStatsPeriod('month')">Este mes</button>
+    </div>
+
+    <!-- ALERTA INTELIGENTE -->
+    <div id="stats-alert" class="stats-alert" style="display:none"></div>
+
+    <!-- CARDS RESUMEN -->
+    <div class="stats-grid" id="stats-cards"></div>
+
+    <!-- BARRA: HORAS POR DÍA -->
+    <p class="section-title">Horas por día</p>
+    <div class="chart-wrap">
+      <canvas id="chart-days"></canvas>
+      <div id="chart-days-labels" class="chart-bar-wrap"></div>
+    </div>
+
+    <!-- PIE: DISTRIBUCIÓN POR CATEGORÍA -->
+    <p class="section-title">Distribución del tiempo</p>
+    <div class="pie-wrap">
+      <canvas id="chart-pie" width="160" height="160"></canvas>
+      <div id="pie-legend" class="pie-legend"></div>
+    </div>
+
+    <!-- METAS -->
+    <p class="section-title">Metas semanales</p>
+    <div id="goals-list"></div>
+    <div class="add-goal-row">
+      <select id="goal-cat" style="flex:1;font-size:13px"></select>
+      <input type="number" id="goal-hours" placeholder="Horas" min="1" max="100" style="width:70px;font-size:13px" />
+      <button class="btn btn-neon1" onclick="addGoal()">+ Meta</button>
+    </div>
+
+    <!-- COMPARACIÓN SEMANAS -->
+    <p class="section-title">Esta semana vs anterior</p>
+    <div id="week-compare" class="week-compare"></div>
+
+    <!-- INSIGHTS -->
+    <p class="section-title">Insights</p>
+    <div id="insights-list" class="insights-list"></div>
   </div>
 </div>
 
@@ -520,12 +608,13 @@ function updatePermCatSelect(){
 }
 
 function switchTab(name){
-  if(isReadOnly&&(name==='cats'||name==='permanent'))return;
-  const names=['schedule','month','cats','permanent'];
+  if(isReadOnly&&(name==='cats'||name==='permanent'||name==='stats'))return;
+  const names=['schedule','month','stats','cats','permanent'];
   document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',names[i]===name));
   names.forEach(n=>document.getElementById('tab-'+n).classList.toggle('active',n===name));
   if(name==='permanent')updatePermCatSelect();
   if(name==='month')renderCalendar();
+  if(name==='stats'){updateGoalCatSelect();renderStats();}
 }
 
 // ── CATEGORIES ──
@@ -949,6 +1038,324 @@ function closeModal(){document.getElementById('modal-overlay').classList.remove(
 function closeModalIfBg(e){if(e.target===document.getElementById('modal-overlay'))closeModal();}
 
 // Make functions global for onclick handlers
+
+// ── STATS ──
+let statsPeriod='week';
+let goals=[];
+
+function setStatsPeriod(p){
+  statsPeriod=p;
+  document.querySelectorAll('.stats-period-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('period-'+p).classList.add('active');
+  renderStats();
+}
+
+function updateGoalCatSelect(){
+  const sel=document.getElementById('goal-cat');if(!sel)return;
+  sel.innerHTML=categories.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
+}
+
+function addGoal(){
+  const catId=document.getElementById('goal-cat').value;
+  const hours=parseFloat(document.getElementById('goal-hours').value);
+  if(!catId||!hours||hours<=0){showStatus('★ Completa la meta');return;}
+  goals=goals.filter(g=>g.catId!==catId);
+  goals.push({catId,hours});
+  try{localStorage.setItem('horario_goals',JSON.stringify(goals));}catch(e){}
+  document.getElementById('goal-hours').value='';
+  renderStats();
+}
+
+function loadGoals(){
+  try{const d=localStorage.getItem('horario_goals');if(d)goals=JSON.parse(d);}catch(e){}
+}
+
+// Calcula horas ocupadas de un día (string dayName) para una semana offset dado
+function calcDayHours(dayName, offset){
+  const monday=getMondayOfWeek(offset);
+  const d=new Date(monday);d.setDate(monday.getDate()+DAYS.indexOf(dayName));
+  const dateStr=localDateStr(d);
+  let total=0;
+  HOURS.forEach(h=>{
+    const perm=getPermForCell(dayName,h);
+    if(perm){total+=1;return;}
+    const ev=events[dayName+'_'+h];
+    if(ev&&ev.date===dateStr)total+=1;
+  });
+  return total;
+}
+
+function getMondayOfWeek(offset){
+  const today=new Date();
+  const todayIdx=today.getDay()===0?6:today.getDay()-1;
+  const monday=new Date(today);
+  monday.setDate(today.getDate()-todayIdx+(offset*7));
+  monday.setHours(12,0,0,0);
+  return monday;
+}
+
+function calcWeekStats(offset){
+  const catHours={};
+  categories.forEach(c=>catHours[c.id]=0);
+  const dayHours={};
+  DAYS.forEach(d=>dayHours[d]=0);
+  let total=0;
+  DAYS.forEach(d=>{
+    const h=calcDayHours(d,offset);
+    dayHours[d]=h;total+=h;
+    // per category
+    const monday=getMondayOfWeek(offset);
+    const dd=new Date(monday);dd.setDate(monday.getDate()+DAYS.indexOf(d));
+    const dateStr=localDateStr(dd);
+    HOURS.forEach(hr=>{
+      const perm=getPermForCell(d,hr);
+      if(perm&&catHours[perm.catId]!==undefined)catHours[perm.catId]+=1;
+      else{
+        const ev=events[d+'_'+hr];
+        if(ev&&ev.date===dateStr&&catHours[ev.catId]!==undefined)catHours[ev.catId]+=1;
+      }
+    });
+  });
+  return{catHours,dayHours,total};
+}
+
+function calcMonthStats(){
+  const catHours={};
+  categories.forEach(c=>catHours[c.id]=0);
+  const dayHours={};
+  DAYS.forEach(d=>dayHours[d]=0);
+  let total=0;
+  const now=new Date();
+  const y=now.getFullYear(),m=now.getMonth();
+  const days=new Date(y,m+1,0).getDate();
+  for(let d=1;d<=days;d++){
+    const dateStr=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const dayName=getDayNameFromDate(dateStr);
+    HOURS.forEach(h=>{
+      const perm=getPermForCell(dayName,h);
+      if(perm){
+        if(catHours[perm.catId]!==undefined)catHours[perm.catId]+=1;
+        dayHours[dayName]=(dayHours[dayName]||0)+1;total+=1;
+      } else {
+        const ev=events[dayName+'_'+h];
+        if(ev&&ev.date===dateStr){
+          if(catHours[ev.catId]!==undefined)catHours[ev.catId]+=1;
+          dayHours[dayName]=(dayHours[dayName]||0)+1;total+=1;
+        }
+      }
+    });
+  }
+  return{catHours,dayHours,total};
+}
+
+function renderStats(){
+  const stats=statsPeriod==='week'?calcWeekStats(0):calcMonthStats();
+  const prevStats=statsPeriod==='week'?calcWeekStats(-1):null;
+  const{catHours,dayHours,total}=stats;
+
+  // Total horas disponibles
+  const availableHours=statsPeriod==='week'?DAYS.length*HOURS.length:new Date(new Date().getFullYear(),new Date().getMonth()+1,0).getDate()*HOURS.length;
+  const freeHours=availableHours-total;
+
+  // Día más y menos ocupado
+  const dayEntries=Object.entries(dayHours);
+  const busiestDay=dayEntries.reduce((a,b)=>b[1]>a[1]?b:a,['—',0]);
+  const freestDay=dayEntries.reduce((a,b)=>b[1]<a[1]?b:a,['—',999]);
+
+  // ── ALERT ──
+  const alertEl=document.getElementById('stats-alert');
+  const alerts=[];
+  if(freeHours<HOURS.length*2)alerts.push('⚠ Semana muy cargada — menos de 2 horas libres por día promedio.');
+  if(busiestDay[1]>=HOURS.length*0.7)alerts.push(`⚠ ${busiestDay[0]} tiene ${busiestDay[1]}h ocupadas — considera redistribuir.`);
+  const studyCat=categories.find(c=>c.name.toLowerCase().includes('estudio')||c.name.toLowerCase().includes('estud'));
+  if(studyCat&&catHours[studyCat.id]<3&&statsPeriod==='week')alerts.push('💡 Pocas horas de estudio esta semana.');
+  if(alertEl){
+    if(alerts.length>0){alertEl.style.display='block';alertEl.innerHTML=alerts.join('<br>');}
+    else alertEl.style.display='none';
+  }
+
+  // ── STAT CARDS ──
+  const cardsEl=document.getElementById('stats-cards');
+  if(cardsEl){
+    const topCat=Object.entries(catHours).reduce((a,b)=>b[1]>a[1]?b:a,['—',0]);
+    const topCatName=categories.find(c=>c.id===topCat[0])?.name||'—';
+    cardsEl.innerHTML=`
+      <div class="stat-card accent">
+        <div class="stat-card-label">Total ocupado</div>
+        <div class="stat-card-value">${total}<span>hrs</span></div>
+        <div class="stat-card-sub">${Math.round(total/DAYS.length*10)/10}h/día promedio</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label">Tiempo libre</div>
+        <div class="stat-card-value">${freeHours}<span>hrs</span></div>
+        <div class="stat-card-sub">${Math.round(freeHours/availableHours*100)}% del tiempo</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label">Día más ocupado</div>
+        <div class="stat-card-value" style="font-size:16px">${busiestDay[0].slice(0,3).toUpperCase()}</div>
+        <div class="stat-card-sub">${busiestDay[1]}h programadas</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label">Actividad líder</div>
+        <div class="stat-card-value" style="font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${topCatName}</div>
+        <div class="stat-card-sub">${topCat[1]}h esta ${statsPeriod==='week'?'semana':'mes'}</div>
+      </div>
+    `;
+    // Extra cards per category
+    let extraHtml='';
+    categories.forEach(c=>{
+      if(catHours[c.id]>0){
+        extraHtml+=`<div class="stat-card"><div class="stat-card-label" style="color:${c.color}">${c.name}</div><div class="stat-card-value">${catHours[c.id]}<span>hrs</span></div><div class="stat-card-sub">${Math.round(catHours[c.id]/Math.max(total,1)*100)}% del tiempo</div></div>`;
+      }
+    });
+    cardsEl.innerHTML+=extraHtml;
+  }
+
+  // ── BAR CHART ──
+  const barWrap=document.getElementById('chart-days-labels');
+  if(barWrap){
+    const maxH=Math.max(...Object.values(dayHours),1);
+    barWrap.innerHTML='';
+    DAYS.forEach(d=>{
+      const h=dayHours[d]||0;
+      const pct=Math.round(h/maxH*100);
+      const col=document.createElement('div');
+      col.className='chart-bar-col';
+      col.innerHTML=`
+        <div class="chart-bar-val">${h>0?h:''}</div>
+        <div class="chart-bar" style="height:${Math.max(pct,2)}%;background:${h===busiestDay[1]&&h>0?'var(--accent)':'var(--border-hi)'}"></div>
+        <div class="chart-bar-label">${d.slice(0,2)}</div>
+      `;
+      barWrap.appendChild(col);
+    });
+  }
+
+  // ── PIE CHART ──
+  const canvas=document.getElementById('chart-pie');
+  const legend=document.getElementById('pie-legend');
+  if(canvas&&legend){
+    const ctx=canvas.getContext('2d');
+    const size=160;canvas.width=size;canvas.height=size;
+    ctx.clearRect(0,0,size,size);
+    const catData=categories.filter(c=>catHours[c.id]>0).map(c=>({name:c.name,color:c.color,hours:catHours[c.id]}));
+    const totalCat=catData.reduce((s,c)=>s+c.hours,0)||1;
+    let startAngle=-Math.PI/2;
+    const cx=size/2,cy=size/2,r=size/2-4;
+    catData.forEach(c=>{
+      const slice=(c.hours/totalCat)*Math.PI*2;
+      ctx.beginPath();ctx.moveTo(cx,cy);
+      ctx.arc(cx,cy,r,startAngle,startAngle+slice);
+      ctx.closePath();ctx.fillStyle=c.color;ctx.fill();
+      ctx.beginPath();ctx.moveTo(cx,cy);
+      ctx.arc(cx,cy,r,startAngle,startAngle+slice);
+      ctx.closePath();ctx.strokeStyle='#0a0a0a';ctx.lineWidth=2;ctx.stroke();
+      startAngle+=slice;
+    });
+    // Center hole
+    ctx.beginPath();ctx.arc(cx,cy,r*0.5,0,Math.PI*2);ctx.fillStyle='#111111';ctx.fill();
+    // Center text
+    ctx.fillStyle='#f0ede8';ctx.font='bold 13px system-ui';ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText(total+'h',cx,cy);
+
+    legend.innerHTML=catData.map(c=>`
+      <div class="pie-legend-item">
+        <span class="pie-legend-dot" style="background:${c.color}"></span>
+        <span>${c.name}</span>
+        <span class="pie-legend-pct">${Math.round(c.hours/totalCat*100)}%</span>
+      </div>`).join('');
+  }
+
+  // ── GOALS ──
+  const goalsEl=document.getElementById('goals-list');
+  if(goalsEl){
+    if(goals.length===0){
+      goalsEl.innerHTML='<div class="empty-state" style="margin-bottom:10px">Sin metas definidas</div>';
+    } else {
+      goalsEl.innerHTML=goals.map(g=>{
+        const cat=categories.find(c=>c.id===g.catId);if(!cat)return'';
+        const done=catHours[g.catId]||0;
+        const pct=Math.min(Math.round(done/g.hours*100),100);
+        return`<div class="goal-item">
+          <div class="goal-header">
+            <span class="goal-name" style="color:${cat.color}">${cat.name}</span>
+            <span class="goal-pct">${pct}%</span>
+          </div>
+          <div class="goal-bar-bg"><div class="goal-bar-fill" style="width:${pct}%;background:${cat.color}"></div></div>
+          <div class="goal-meta">${done}h de ${g.hours}h · ${pct>=100?'✓ Meta cumplida':'faltan '+(g.hours-done)+'h'}</div>
+        </div>`;
+      }).join('');
+    }
+  }
+
+  // ── WEEK COMPARE ──
+  const compareEl=document.getElementById('week-compare');
+  if(compareEl&&prevStats&&statsPeriod==='week'){
+    const curr=stats.total;const prev=prevStats.total;
+    const diff=curr-prev;
+    const diffStr=diff>0?`▲ +${diff}h vs semana pasada`:diff<0?`▼ ${diff}h vs semana pasada`:'Sin cambio';
+    const diffClass=diff>0?'up':'down';
+    compareEl.innerHTML=`
+      <div class="compare-item">
+        <div class="compare-label">Esta semana</div>
+        <div class="compare-val">${curr}<span>hrs</span></div>
+        <div class="compare-diff ${diffClass}">${diffStr}</div>
+      </div>
+      <div class="compare-item">
+        <div class="compare-label">Semana pasada</div>
+        <div class="compare-val">${prev}<span>hrs</span></div>
+        <div class="compare-diff" style="color:var(--text3)">${prev>0?Math.round(prev/DAYS.length*10)/10+'h/día promedio':'Sin datos'}</div>
+      </div>
+    `;
+    categories.forEach(c=>{
+      const currH=stats.catHours[c.id]||0;
+      const prevH=prevStats.catHours[c.id]||0;
+      if(currH===0&&prevH===0)return;
+      const d=currH-prevH;
+      const dc=d>0?'up':d<0?'down':'';
+      compareEl.innerHTML+=`
+        <div class="compare-item">
+          <div class="compare-label" style="color:${c.color}">${c.name}</div>
+          <div class="compare-val">${currH}<span>hrs</span></div>
+          <div class="compare-diff ${dc}">${d>0?'▲ +'+d+'h':d<0?'▼ '+d+'h':'Sin cambio'}</div>
+        </div>
+        <div class="compare-item">
+          <div class="compare-label" style="color:var(--text3)">Semana anterior</div>
+          <div class="compare-val">${prevH}<span>hrs</span></div>
+          <div class="compare-diff" style="color:var(--text3)">${prevH>0?Math.round(prevH/DAYS.length*10)/10+'h/día':''}</div>
+        </div>
+      `;
+    });
+  } else if(compareEl){
+    compareEl.innerHTML='<div class="empty-state" style="grid-column:span 2">Disponible en vista semanal</div>';
+  }
+
+  // ── INSIGHTS ──
+  const insightsEl=document.getElementById('insights-list');
+  if(insightsEl){
+    const insights=[];
+    if(total===0){
+      insights.push({text:'No hay actividades esta semana. ¡Empieza a planificar!',type:'warn'});
+    } else {
+      if(busiestDay[1]>0)insights.push({text:`${busiestDay[0]} es tu día más cargado con ${busiestDay[1]}h programadas.`,type:'warn'});
+      if(freestDay[1]<3&&total>0)insights.push({text:`${freestDay[0]} es tu día con más tiempo libre (${freestDay[1]}h ocupadas).`,type:'good'});
+      const avgDay=Math.round(total/DAYS.length*10)/10;
+      insights.push({text:`Promedio de ${avgDay}h por día esta ${statsPeriod==='week'?'semana':'mes'}.`,type:''});
+      categories.forEach(c=>{
+        const h=catHours[c.id];
+        if(h>0)insights.push({text:`${c.name}: ${h}h (${Math.round(h/total*100)}% de tu tiempo).`,type:''});
+      });
+      if(prevStats){
+        const diff=total-prevStats.total;
+        if(diff>0)insights.push({text:`Esta semana tienes ${diff}h más que la semana pasada. ¡Más activa!`,type:'good'});
+        else if(diff<0)insights.push({text:`Esta semana tienes ${Math.abs(diff)}h menos que la semana pasada.`,type:'warn'});
+      }
+    }
+    insightsEl.innerHTML=insights.map(i=>`<div class="insight-item ${i.type}">${i.text}</div>`).join('');
+  }
+}
+
+window.setStatsPeriod=setStatsPeriod;window.addGoal=addGoal;
+
 window.switchTab=switchTab;window.addCategory=addCategory;window.selectCat=selectCat;window.changeWeek=(d)=>{weekOffset+=d;currentDay=DAYS[0];renderDayNav();renderSchedule();};
 window.changeMonth=changeMonth;window.addPermanent=addPermanent;window.deletePermanent=deletePermanent;
 window.deleteCategory=deleteCategory;window.confirmDeleteCat=confirmDeleteCat;
